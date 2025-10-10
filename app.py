@@ -1,1 +1,6 @@
-print('Hola desde Flask en Azure')
+from flask import Flask
+app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return "¡Hola mundo desde Flask en Ubuntu!"
