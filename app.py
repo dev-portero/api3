@@ -5,13 +5,13 @@ import pyodbc
 # Este nombre debe ser 'app' para que Gunicorn lo encuentre
 app = Flask(__name__)
 
-# # === CONFIGURACIÓN BASE DE DATOS ===
-# SERVER ='dataportero.database.windows.net'
-# DATABASE = 'datacc' 
-# USERNAME = 'validacion_documentos'
-# PASSWORD = 'RRt852*amxb'
-# DRIVER = '{ODBC Driver 18 for SQL Server}'
-# TABLE_NAME = "ib_empleado_imp1"     # tabla con los campos
+# === CONFIGURACIÓN BASE DE DATOS ===
+SERVER ='dataportero.database.windows.net'
+DATABASE = 'datacc' 
+USERNAME = 'validacion_documentos'
+PASSWORD = 'RRt852*amxb'
+DRIVER = 'ODBC Driver 18 for SQL Server'
+TABLE_NAME = 'ib_empleado_imp1'     # tabla con los campos
 
 
 # # # Función de conexión
