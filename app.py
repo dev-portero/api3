@@ -15,25 +15,24 @@ TABLE_NAME = "ib_empleado_imp1"     # tabla con los campos
 
 
 # # Función de conexión
-# def get_connection():
-    # conn = pyodbc.connect(
-        # 'DRIVER={ODBC Driver 18 for SQL Server};'
-        # 'SERVER={SERVER};'          
-        # 'DATABASE={DATABASE};'
-        # 'UID={USERNAME};'
-        # 'PWD={PASSWORD}';'
-        # 'TrustServerCertificate=yes;'        # evita problemas SSL si es remoto      
-    # )
-    # return conn
+def get_connection():
+    conn = pyodbc.connect(
+        'DRIVER={ODBC Driver 18 for SQL Server};'
+        'SERVER={SERVER};'          
+        'DATABASE={DATABASE};'
+        'UID={USERNAME};'
+        'PWD={PASSWORD}';'
+        'TrustServerCertificate=yes;'        # evita problemas SSL si es remoto      
+    )
+    return conn
 
 @app.route("/")
 def home():
-    # conn = get_db_connection()
-    # cursor = conn.cursor()
-    # cursor.execute("SELECT top 5 * FROM {TABLE_NAME}")
-    # rows = cursor.fetchall()
-    # cursor.close()
-    # conn.close()
-    # # Devolver resultado como texto simple
-    # return "<br>".join(str(row) for row in rows)
-    return "Holaaaa"
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT top 5 * FROM {TABLE_NAME}")
+    rows = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    # Devolver resultado como texto simple
+    return "<br>".join(str(row) for row in rows)
