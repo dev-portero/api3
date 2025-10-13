@@ -42,7 +42,8 @@ def get_connection():
 def home():
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("SELECT top 5 * FROM {TABLE_NAME}")
+    sql = f"SELECT TOP 5 * FROM {TABLE_NAME}"
+    cursor.execute(sql)
     rows = cursor.fetchall()
     cursor.close()
     conn.close()
