@@ -24,14 +24,16 @@ TABLE_NAME = 'ib_validacion_documentos'     # tabla con los campos
 
 # # Función de conexión
 def get_connection():
-    conn = pyodbc.connect(
-        'DRIVER={ODBC Driver 18 for SQL Server};'
-        'SERVER={SERVER};'          
-        'DATABASE={DATABASE};'
-        'UID={USERNAME};'
-        'PWD={PASSWORD};'
-        'TrustServerCertificate=yes;'        # evita problemas SSL si es remoto      
+    conn_str = (
+        "DRIVER={ODBC Driver 18 for SQL Server};"
+        f"SERVER={SERVER};"
+        f"DATABASE={DATABASE};"
+        f"UID={USERNAME};"
+        f"PWD={PASSWORD};"
+        "Encrypt=yes;"
+        "TrustServerCertificate=no;"
     )
+    conn = pyodbc.connect(conn_str)
     return conn
     
     
