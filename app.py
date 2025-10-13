@@ -26,16 +26,14 @@ def get_connection():
     )
     return conn
 
-@app.route("/")
-def home():
-    conn = get_connection()
-    cursor = conn.cursor()
-    cursor.execute("SELECT top 5 * FROM {TABLE_NAME}")
-    rows = cursor.fetchall()
-    cursor.close()
-    conn.close()
-    # Devolver resultado como texto simple
-    return "<br>".join(str(row) for row in rows)
+# @app.route("/")
+# def home():
+    # conn = get_connection()
+    # cursor = conn.cursor()
+    # cursor.execute("SELECT top 5 * FROM {TABLE_NAME}")
+    # rows = cursor.fetchall()
+    # cursor.close()
+    # conn.close()
+    # # Devolver resultado como texto simple
+    # return "<br>".join(str(row) for row in rows)
     
-if __name__ == "__main__":
-    app.run(debug=True)
