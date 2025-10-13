@@ -10,7 +10,7 @@ SERVER ='dataportero.database.windows.net'
 DATABASE = 'datacc' 
 USERNAME = 'validacion_documentos'
 PASSWORD = 'RRt852*amxb'
-DRIVER = 'ODBC Driver 18 for SQL Server'
+DRIVER = '{ODBC Driver 18 for SQL Server}'
 TABLE_NAME = 'ib_empleado_imp1'     # tabla con los campos
 
 
@@ -25,6 +25,16 @@ def get_connection():
         'TrustServerCertificate=yes;'        # evita problemas SSL si es remoto      
     )
     return conn
+    
+    
+@app.route("/debug")
+def debug():
+    import platform, sys
+    return {
+        "python_version": sys.version,
+        "platform": platform.system(),
+        "cwd": os.getcwd()
+    }
 
 @app.route("/")
 def home():
