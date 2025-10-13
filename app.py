@@ -28,11 +28,12 @@ def get_connection():
 
 @app.route("/")
 def home():
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM {TABLE_NAME}")
-    rows = cursor.fetchall()
-    cursor.close()
-    conn.close()
-    # Devolver resultado como texto simple
-    return "<br>".join(str(row) for row in rows)
+    # conn = get_db_connection()
+    # cursor = conn.cursor()
+    # cursor.execute("SELECT top 5 * FROM {TABLE_NAME}")
+    # rows = cursor.fetchall()
+    # cursor.close()
+    # conn.close()
+    # # Devolver resultado como texto simple
+    # return "<br>".join(str(row) for row in rows)
+    return 'Holaaaa'
