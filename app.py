@@ -50,17 +50,17 @@ def home():
     return "<br>".join(str(row) for row in rows)
     
  
-@app.route("/test-error")
-def test_error():
-    # Genera un error a propósito para probar el manejo de excepciones
-    1 / 0  # Esto causará un ZeroDivisionError
-    return "Nunca se mostrará esto."
+# @app.route("/test-error")
+# def test_error():
+    # # Genera un error a propósito para probar el manejo de excepciones
+    # 1 / 0  # Esto causará un ZeroDivisionError
+    # return "Nunca se mostrará esto."
 
 
-# --- Manejador global de errores (muestra el error completo en el navegador) ---
-@app.errorhandler(Exception)
-def handle_exception(e):
-    tb = traceback.format_exc()
-    app.logger.error("❌ Ocurrió un error en la aplicación:\n" + tb)
-    # Devuelve el error completo al navegador
-    return f" Ocurrió un error en el servidor:</h2><pre>{tb}</pre>", 500
+# # --- Manejador global de errores (muestra el error completo en el navegador) ---
+# @app.errorhandler(Exception)
+# def handle_exception(e):
+    # tb = traceback.format_exc()
+    # app.logger.error("❌ Ocurrió un error en la aplicación:\n" + tb)
+    # # Devuelve el error completo al navegador
+    # return f" Ocurrió un error en el servidor:</h2><pre>{tb}</pre>", 500
