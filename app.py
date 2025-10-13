@@ -26,8 +26,8 @@ def get_connection():
     )
     return conn
 
-# @app.route("/")
-# def home():
+@app.route("/")
+def home():
     # conn = get_connection()
     # cursor = conn.cursor()
     # cursor.execute("SELECT top 5 * FROM {TABLE_NAME}")
@@ -36,4 +36,5 @@ def get_connection():
     # conn.close()
     # # Devolver resultado como texto simple
     # return "<br>".join(str(row) for row in rows)
+    return "AAAAAAAAAAAAAAA"
     
