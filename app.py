@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-import pyodbc
+#import pyodbc
 
 
 # Este nombre debe ser 'app' para que Gunicorn lo encuentre
