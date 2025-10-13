@@ -25,7 +25,7 @@ TABLE_NAME = 'ib_validacion_documentos'     # tabla con los campos
 # # Función de conexión
 def get_connection():
     conn = pyodbc.connect(
-        'DRIVER={DRIVER};'
+        'DRIVER={ODBC Driver 18 for SQL Server};'
         'SERVER={SERVER};'          
         'DATABASE={DATABASE};'
         'UID={USERNAME};'
