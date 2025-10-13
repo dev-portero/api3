@@ -61,4 +61,4 @@ def handle_exception(e):
     tb = traceback.format_exc()
     app.logger.error("❌ Ocurrió un error en la aplicación:\n" + tb)
     # Devuelve el error completo al navegador
-    return f"<h2>❌ Ocurrió un error en el servidor:</h2><pre>{tb}</pre>", 500
+    return f" Ocurrió un error en el servidor:</h2><pre>{tb}</pre>", 500
