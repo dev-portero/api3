@@ -18,8 +18,7 @@ SERVER ='dataportero.database.windows.net'
 DATABASE = 'datacc' 
 USERNAME = 'validacion_documentos'
 PASSWORD = 'RRt852*amxb'
-DRIVER = '{ODBC Driver 18 for SQL Server}'
-TABLE_NAME = 'ib_validacion_documentos'     # tabla con los campos
+TABLE_NAME = 'ib_empleado_imp1'     # tabla con los campos
 
 
 # # Función de conexión
