@@ -47,7 +47,7 @@ def home():
     cursor.close()
     conn.close()
     # Devolver resultado como texto simple
-    return "Holiiiiii"
+    return "<br>".join(str(row) for row in rows)
     
 # CREATE
 @app.route("/employees", methods=["POST"])
