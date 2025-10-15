@@ -86,7 +86,7 @@ def crear_producto():
                                            emp_cargo,      car_id,             emp_genero,         prs_nombre,
                                            soc_nombre,     prs_id,             emp_imp_error,      emp_soc_id,
                                            mot_id,         mot_nombre,         emp_talla_superior, emp_talla_inferior,
-                                           emp_talla_zapato
+                                           emp_talla_zapato)
                                    values (?,                  ?,              ?,                  ?,   
                                            ?,                  ?,              ?,                  ?,
                                            ?,                  ?,              ?,                  ?,
