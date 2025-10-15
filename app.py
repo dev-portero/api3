@@ -47,7 +47,70 @@ def home():
     cursor.close()
     conn.close()
     # Devolver resultado como texto simple
-    return "<br>".join(str(row) for row in rows)
+    return "Holiiiiii"
+    
+# CREATE
+@app.route("/employees", methods=["POST"])
+def crear_producto():
+    data = request.get_json()
+    corporacion = data.get("corporacion")
+    identificacion = data.get("identificacion", "")
+    nombre = data.get("nombre", "")
+    apellidos = data.get("apellidos", "")
+    direccion = data.get("direccion", "")
+    email = data.get("email", "")
+    telefono = data.get("telefono", "")
+    rh = data.get("rh", "")
+    fecha_nacimiento = data.get("fecha_nacimiento", "")
+    dependencia = data.get("dependencia", "")
+    eps = data.get("eps", "")
+    id_eps = data.get("id_eps", "")    
+    cargo = data.get("cargo", "")
+    id_cargo = data.get("id_cargo", "")
+    genero = data.get("genero", "")
+    emp_imp_error = data.get("emp_imp_error", "")
+    prs_nombre = data.get("prs_nombre", "")
+    soc_nombre = data.get("soc_nombre", "")
+    prs_id = data.get("prs_id", "")
+    emp_soc_id = data.get("emp_soc_id", "")
+    mot_id = data.get("mot_id", "")
+    mot_nombre = data.get("mot_nombre", "")
+    talla_superior = data.get("talla_superior", "")
+    tala_inferior = data.get("tala_inferior", "")
+    talla_zapato = data.get("talla_zapato", "")
+    conn = get_connection()
+    cursor = conn.cursor()
+    query = f""" INSERT INTO {TABLE_NAME} (cor_id,         emp_identificacion, emp_nombres,        emp_apellidos,
+                                           emp_direccion,  emp_email,          emp_telefono,       emp_rh,
+                                           emp_nacimiento, emp_dependencia,    emp_EPS,            ent_id_EPS,
+                                           emp_cargo,      car_id,             emp_genero,         prs_nombre,
+                                           soc_nombre,     prs_id,             emp_imp_error,      emp_soc_id,
+                                           mot_id,         mot_nombre,         emp_talla_superior, emp_talla_inferior,
+                                           emp_talla_zapato
+                                   values (?,                  ?,              ?,                  ?,   
+                                           ?,                  ?,              ?,                  ?,
+                                           ?,                  ?,              ?,                  ?,
+                                           ?,                  ?,              ?,                  ?, 
+                                           ?,                  ?,              ?,                  ?, 
+                                           ?,                  ?,              ?,                  ?, 
+                                           ?)                                                     
+    """
+    datVar = (corporacion,      identificacion, nombre,         apellidos,
+              direccion,        email,          telefono,       rh,
+              fecha_nacimiento, dependencia,    eps,            id_eps,
+              cargo,            id_cargo,       genero,         emp_imp_error,
+              prs_nombre,       soc_nombre,     prs_id,         emp_soc_id, 
+              mot_id,           mot_nombre,     talla_superior, tala_inferior,
+              talla_zapato)
+    cursor.execute(query,datVar)
+    conn.commit()
+    # obtener el último ID insertado
+    cursor.execute("SELECT SCOPE_IDENTITY()")
+    new_id = cursor.fetchone()[0]
+    cursor.close()
+    conn.close()
+
+    return jsonify({"id": new_id, "nombre": nombre, "apellidos": apellidos}), 201
     
  
 @app.route("/test-error")
