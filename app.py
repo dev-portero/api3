@@ -103,10 +103,10 @@ def crear_empleado():
               mot_id,           mot_nombre,     talla_superior, tala_inferior,
               talla_zapato)
     cursor.execute(query,datVar)
-    conn.commit()
     # obtener el último ID insertado
     cursor.execute("SELECT SCOPE_IDENTITY()")
     new_id = cursor.fetchone()[0]
+    conn.commit()
     cursor.close()
     conn.close()
 
