@@ -51,7 +51,7 @@ def home():
     
 # CREATE
 @app.route("/employees", methods=["POST"])
-def crear_producto():
+def crear_empleado():
     data = request.get_json()
     corporacion = data.get("corporacion")
     identificacion = data.get("identificacion", "")
