@@ -86,7 +86,7 @@ def crear7_empleado():
         talla_zapato = data['talla_zapato']
         accion = data['accion']
         
-        if accion not in ('Insertar', 'Actualizar', 'Estado')
+        if accion not in ('Insertar', 'Actualizar', 'Estado'):
             return jsonify({"error": "El valor del campo 'accion' no es valido solo se admiten valores 'Insertar', 'Actualizar', 'Estado'"}), 400  
 
         if accion == "Estado" and 'estado' not in data:
@@ -116,7 +116,7 @@ def crear7_empleado():
                   direccion,        email,          telefono,       rh,
                   fecha_nacimiento, dependencia,    eps,            cargo,
                   genero,           prs_nombre,     soc_nombre,     mot_nombre,     
-                  talla_superior,   tala_inferior,  talla_zapato    accion,
+                  talla_superior,   tala_inferior,  talla_zapato,   accion,
                   estado)
         cursor.execute(query,datVar)
         cursor.execute("SELECT SCOPE_IDENTITY()")
