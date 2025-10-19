@@ -32,7 +32,6 @@ def get_connection():
     return conn
     
     
-
 @app.route("/")
 def home():
     conn = get_connection()
