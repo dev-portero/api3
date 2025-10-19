@@ -86,7 +86,7 @@ def crear7_empleado():
         talla_zapato = data['talla_zapato']
         accion = data['accion']
         
-        if accion is not in ('Insertar', 'Actualizar', 'Estado')
+        if accion not in ('Insertar', 'Actualizar', 'Estado')
             return jsonify({"error": "El valor del campo 'accion' no es valido solo se admiten valores 'Insertar', 'Actualizar', 'Estado'"}), 400  
 
         if accion == "Estado" and 'estado' not in data:
