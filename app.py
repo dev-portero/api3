@@ -127,13 +127,13 @@ def crear7_empleado():
         cursor.execute(sql)
         error_list = cursor.fetchone()[0]
         
-    if error_list =="":
-        if accion == "Insertar":
-            return jsonify({"message": "Empleado creado exitosamente"}), 201
+        if error_list =="":
+            if accion == "Insertar":
+                return jsonify({"message": "Empleado creado exitosamente"}), 201
+            else:
+                return jsonify({"message": "Empleado actualizado"}), 200
         else:
-            return jsonify({"message": "Empleado actualizado"}), 200
-    else:
-        return jsonify({"error": error_list}), 400 
+            return jsonify({"error": error_list}), 400 
         
         
     except pyodbc.IntegrityError as e:
