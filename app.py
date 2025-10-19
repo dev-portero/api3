@@ -18,7 +18,7 @@ SERVER ='dataportero.database.windows.net'
 DATABASE = 'datacc' 
 USERNAME = 'validacion_documentos'
 PASSWORD = 'RRt852*amxb'
-TABLE_NAME = 'ib_empleado_imp1'     # tabla con los campos
+TABLE_NAME = 'ib_empleado_api'     # tabla con los campos
 
 
 # # Función de conexión
@@ -41,7 +41,7 @@ def get_connection():
 def home():
     conn = get_connection()
     cursor = conn.cursor()
-    sql = f"SELECT TOP 5 * FROM {TABLE_NAME}"
+    sql = f"SELECT * FROM {TABLE_NAME}"
     cursor.execute(sql)
     rows = cursor.fetchall()
     cursor.close()
@@ -50,8 +50,8 @@ def home():
     return "<br>".join(str(row) for row in rows)
     
 # CREATE
-@app.route("/employees", methods=["POST"])
-def crear_empleado():
+@app.route("/employees7", methods=["POST"])
+def crear7_empleado():
     data = request.get_json()
     corporacion = data.get("corporacion")
     identificacion = data.get("identificacion", "")
