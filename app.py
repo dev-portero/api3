@@ -21,12 +21,12 @@ TABLE_NAME = 'ib_empleado_api'     # tabla con los campos
 # # Función de conexión
 def get_connection():
     conn_str = (
-        f"DRIVER={DB_CONFIG['DRIVER']};"
-        f"SERVER={DB_CONFIG['SERVER']};"
-        f"DATABASE={DB_CONFIG['DATABASE']};"
-        f"UID={DB_CONFIG['UID']};"
-        f"PWD={DB_CONFIG['PWD']};"
-        f"TrustServerCertificate={DB_CONFIG['TrustServerCertificate']};"
+        f"DRIVER={DB_CONFIG['DRIVER", "")};"
+        f"SERVER={DB_CONFIG['SERVER", "")};"
+        f"DATABASE={DB_CONFIG['DATABASE", "")};"
+        f"UID={DB_CONFIG['UID", "")};"
+        f"PWD={DB_CONFIG['PWD", "")};"
+        f"TrustServerCertificate={DB_CONFIG['TrustServerCertificate", "")};"
     )
     conn = pyodbc.connect(conn_str)
     return conn
@@ -65,25 +65,25 @@ def crear7_empleado():
         if 'accion' not in data:
             return jsonify({"error": "Campo 'accion' es requerido"}), 400
         
-        identificacion = data['identificacion']
-        nombre = data['nombre']
-        apellidos = data['apellidos']
-        direccion = data['direccion']
-        email = data['email']
-        telefono = data['telefono']
-        rh = data['rh']
-        fecha_nacimiento = data['fecha_nacimiento']
-        dependencia = data['dependencia']
-        eps = data['eps']  
-        cargo = data['cargo']
-        genero = data['genero']
-        prs_nombre = data['prs_nombre']
-        soc_nombre = data['soc_nombre']
-        mot_nombre = data['mot_nombre']
-        talla_superior = data['talla_superior']
-        tala_inferior = data['tala_inferior']
-        talla_zapato = data['talla_zapato']
-        accion = data['accion']
+        identificacion = data.get("identificacion", "")
+        nombre = data.get("nombre", "")
+        apellidos = data.get("apellidos", "")
+        direccion = data.get("direccion", "")
+        email = data.get("email", "")
+        telefono = data.get("telefono", "")
+        rh = data.get("rh", "")
+        fecha_nacimiento = data.get("fecha_nacimiento", "")
+        dependencia = data.get("dependencia", "")
+        eps = data.get("eps", "")  
+        cargo = data.get("cargo", "")
+        genero = data.get("genero", "")
+        prs_nombre = data.get("prs_nombre", "")
+        soc_nombre = data.get("soc_nombre", "")
+        mot_nombre = data.get("mot_nombre", "")
+        talla_superior = data.get("talla_superior", "")
+        tala_inferior = data.get("tala_inferior", "")
+        talla_zapato = data.get("talla_zapato", "")
+        accion = data.get("accion", "")
         
         if accion not in ('Insertar', 'Actualizar', 'Estado'):
             return jsonify({"error": "El valor del campo 'accion' no es valido solo se admiten valores 'Insertar', 'Actualizar', 'Estado'"}), 400  
@@ -91,7 +91,7 @@ def crear7_empleado():
         if accion == "Estado" and 'estado' not in data:
             return jsonify({"error": "Campo 'estado' es requerido"}), 400            
         
-        estado = data['estado']
+        estado = data.get("estado", "")
         
         conn = get_connection()
         cursor = conn.cursor()
