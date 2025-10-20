@@ -103,13 +103,14 @@ def crear7_empleado():
                                                emp_nacimiento,     emp_dependencia,    emp_EPS,            emp_cargo,            
                                                emp_genero,         prs_nombre,         soc_nombre,         mot_nombre, 
                                                emp_talla_superior, emp_talla_inferior, emp_talla_zapato,   emp_tipo_registro,
-                                               emp_estado)                                         
+                                               emp_estado) 
+                                       OUTPUT INSERTED.emp_id                                                                                     
                                        values (?,                  ?,                  ?,                  ?,   
                                                ?,                  ?,                  ?,                  ?,
                                                ?,                  ?,                  ?,                  ?,
                                                ?,                  ?,                  ?,                  ?, 
                                                ?,                  ?,                  ?,                  ?,
-                                               ?)                                                     
+                                               ?);
         """
         datVar = (7,                identificacion, nombre,         apellidos,
                   direccion,        email,          telefono,       rh,
@@ -118,7 +119,6 @@ def crear7_empleado():
                   talla_superior,   tala_inferior,  talla_zapato,   accion,
                   estado)
         cursor.execute(query,datVar)
-        cursor.execute("SELECT SCOPE_IDENTITY()")
         new_id = cursor.fetchone()[0]
         conn.commit()
         
@@ -137,14 +137,17 @@ def crear7_empleado():
         
     except pyodbc.IntegrityError as e:
         # Error típico de constraint (por ejemplo NOT NULL o UNIQUE)
+        conn.rollback()
         return jsonify({"error": "Error de integridad en la base de datos", "detalle": str(e)}), 400
 
     except pyodbc.ProgrammingError as e:
         # Error de sintaxis SQL u otro problema de estructura
+        conn.rollback()
         return jsonify({"error": "Error en la sintaxis SQL o campos inválidos", "detalle": str(e)}), 400
 
     except Exception as e:
         # Cualquier otro error inesperado
+        conn.rollback()
         return jsonify({"error": "Error interno del servidor", "detalle": str(e)}), 500
 
     finally:
