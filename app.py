@@ -21,12 +21,12 @@ TABLE_NAME = 'ib_empleado_api'     # tabla con los campos
 # # Función de conexión
 def get_connection():
     conn_str = (
-        f"DRIVER={DB_CONFIG['DRIVER", "")};"
-        f"SERVER={DB_CONFIG['SERVER", "")};"
-        f"DATABASE={DB_CONFIG['DATABASE", "")};"
-        f"UID={DB_CONFIG['UID", "")};"
-        f"PWD={DB_CONFIG['PWD", "")};"
-        f"TrustServerCertificate={DB_CONFIG['TrustServerCertificate", "")};"
+        f"DRIVER={DB_CONFIG['DRIVER']};"
+        f"SERVER={DB_CONFIG['SERVER']};"
+        f"DATABASE={DB_CONFIG['DATABASE']};"
+        f"UID={DB_CONFIG['UID']};"
+        f"PWD={DB_CONFIG['PWD']};"
+        f"TrustServerCertificate={DB_CONFIG['TrustServerCertificate']};"
     )
     conn = pyodbc.connect(conn_str)
     return conn
