@@ -105,13 +105,12 @@ def crear7_empleado():
                                   emp_genero,         prs_nombre,         soc_nombre,         mot_nombre, 
                                   emp_talla_superior, emp_talla_inferior, emp_talla_zapato,   emp_tipo_registro,
                                   emp_estado) 
-        OUTPUT INSERTED.emp_id INTO @tempID
         values (?,                  ?,                  ?,                  ?,   
                 ?,                  ?,                  ?,                  ?,
                 ?,                  ?,                  ?,                  ?,
                 ?,                  ?,                  ?,                  ?, 
                 ?,                  ?,                  ?,                  ?,
-                ?);
+                ?)
         """
         datVar = (7,                identificacion, nombre,         apellidos,
                   direccion,        email,          telefono,       rh,
