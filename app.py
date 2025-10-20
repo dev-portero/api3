@@ -122,7 +122,7 @@ def crear7_empleado():
         new_id = cursor.fetchone()[0]
         conn.commit()
         
-        cursor.execute("SELECT emp_imp_error FROM {TABLE_NAME} where emp_id = ?", (new_id,))
+        cursor.execute(f"SELECT emp_imp_error FROM {TABLE_NAME} WHERE emp_id = ?", (new_id,))
         error_list = cursor.fetchone()[0]
         conn.commit()
         
