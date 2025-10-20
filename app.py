@@ -81,7 +81,7 @@ def crear7_empleado():
         soc_nombre = data.get("soc_nombre", "")
         mot_nombre = data.get("mot_nombre", "")
         talla_superior = data.get("talla_superior", "")
-        tala_inferior = data.get("tala_inferior", "")
+        talla_inferior = data.get("talla_inferior", "")
         talla_zapato = data.get("talla_zapato", "")
         accion = data.get("accion", "")
         
@@ -116,7 +116,7 @@ def crear7_empleado():
                   direccion,        email,          telefono,       rh,
                   fecha_nacimiento, dependencia,    eps,            cargo,
                   genero,           prs_nombre,     soc_nombre,     mot_nombre,     
-                  talla_superior,   tala_inferior,  talla_zapato,   accion,
+                  talla_superior,   talla_inferior,  talla_zapato,   accion,
                   estado)
         cursor.execute(query,datVar)
         new_id = cursor.fetchone()[0]
