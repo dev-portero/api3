@@ -100,19 +100,20 @@ def crear7_empleado():
         
         query = f"""
         DECLARE @tempID TABLE (emp_id INT);
+        
         INSERT INTO {TABLE_NAME} (cor_id,             emp_identificacion, emp_nombres,        emp_apellidos,
-                                               emp_direccion,      emp_email,          emp_telefono,       emp_rh,
-                                               emp_nacimiento,     emp_dependencia,    emp_EPS,            emp_cargo,            
-                                               emp_genero,         prs_nombre,         soc_nombre,         mot_nombre, 
-                                               emp_talla_superior, emp_talla_inferior, emp_talla_zapato,   emp_tipo_registro,
-                                               emp_estado) 
-                                       OUTPUT INSERTED.emp_id INTO @tempID                                                                                   
-                                       values (?,                  ?,                  ?,                  ?,   
-                                               ?,                  ?,                  ?,                  ?,
-                                               ?,                  ?,                  ?,                  ?,
-                                               ?,                  ?,                  ?,                  ?, 
-                                               ?,                  ?,                  ?,                  ?,
-                                               ?);
+                                  emp_direccion,      emp_email,          emp_telefono,       emp_rh,
+                                  emp_nacimiento,     emp_dependencia,    emp_EPS,            emp_cargo,            
+                                  emp_genero,         prs_nombre,         soc_nombre,         mot_nombre, 
+                                  emp_talla_superior, emp_talla_inferior, emp_talla_zapato,   emp_tipo_registro,
+                                  emp_estado) 
+        OUTPUT INSERTED.emp_id INTO @tempID
+                           values (?,                  ?,                  ?,                  ?,   
+                                   ?,                  ?,                  ?,                  ?,
+                                   ?,                  ?,                  ?,                  ?,
+                                   ?,                  ?,                  ?,                  ?, 
+                                   ?,                  ?,                  ?,                  ?,
+                                   ?);
          SELECT emp_id FROM @tempID;
         """
         datVar = (7,                identificacion, nombre,         apellidos,
