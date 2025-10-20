@@ -99,8 +99,6 @@ def crear7_empleado():
 
         
         query = f"""
-        DECLARE @tempID TABLE (emp_id INT);
-        
         INSERT INTO {TABLE_NAME} (cor_id,             emp_identificacion, emp_nombres,        emp_apellidos,
                                   emp_direccion,      emp_email,          emp_telefono,       emp_rh,
                                   emp_nacimiento,     emp_dependencia,    emp_EPS,            emp_cargo,            
@@ -114,8 +112,6 @@ def crear7_empleado():
                 ?,                  ?,                  ?,                  ?, 
                 ?,                  ?,                  ?,                  ?,
                 ?);
-                
-        SELECT emp_id FROM @tempID;
         """
         datVar = (7,                identificacion, nombre,         apellidos,
                   direccion,        email,          telefono,       rh,
@@ -124,10 +120,9 @@ def crear7_empleado():
                   talla_superior,   talla_inferior,  talla_zapato,   accion,
                   estado)
         cursor.execute(query,datVar)
-        new_id = cursor.fetchone()[0]
         conn.commit()
         
-        cursor.execute(f"SELECT emp_imp_error FROM {TABLE_NAME} WHERE emp_id = ?", (new_id,))
+        cursor.execute(f"SELECT emp_imp_error FROM {TABLE_NAME} WHERE emp_identificacion = ?", (identificacion,))
         error_list = cursor.fetchone()[0]
         conn.commit()
         
