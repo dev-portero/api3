@@ -122,9 +122,9 @@ def crear7_empleado():
         new_id = cursor.fetchone()[0]
         conn.commit()
         
-        sql = f"SELECT emp_imp_error FROM {TABLE_NAME} where emp_id = {new_id}"
-        cursor.execute(sql)
+        cursor.execute("SELECT emp_imp_error FROM {TABLE_NAME} where emp_id = ?", (new_id,))
         error_list = cursor.fetchone()[0]
+        conn.commit()
         
         if error_list =="":
             if accion == "Insertar":
