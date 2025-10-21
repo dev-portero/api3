@@ -9,3 +9,5 @@ DB_CONFIG = {
     "PWD": os.getenv("DB_PASSWORD", "RRt852*amxb"),
     "TrustServerCertificate": "yes"
 }
+
+API_TOKEN = os.getenv("API_TOKEN", "mi_token_super_seguro")

@@ -3,7 +3,8 @@ import pyodbc
 import traceback
 import logging
 import sys
-from config import DB_CONFIG
+from functools import wraps
+from config import DB_CONFIG,API_TOKEN
 
 
 # Este nombre debe ser 'app' para que Gunicorn lo encuentre
@@ -18,7 +19,7 @@ app.logger.setLevel(logging.DEBUG)
 TABLE_NAME = 'ib_empleado_api'     # tabla con los campos
 
 
-# # Función de conexión
+# Función de conexión
 def get_connection():
     conn_str = (
         f"DRIVER={DB_CONFIG['DRIVER']};"
@@ -31,6 +32,29 @@ def get_connection():
     conn = pyodbc.connect(conn_str)
     return conn
     
+#decorador para el token
+def token_required(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        auth_header = request.headers.get("Authorization")
+
+        if not auth_header:
+            return jsonify({"error": "Token requerido"}), 401
+
+        try:
+            token_type, token_value = auth_header.split()
+        except ValueError:
+            return jsonify({"error": "Formato del token inválido"}), 400
+
+        if token_type.lower() != "bearer":
+            return jsonify({"error": "Tipo de token inválido"}), 401
+
+        if token_value != API_TOKEN:
+            return jsonify({"error": "Token inválido o expirado"}), 403
+
+        return f(*args, **kwargs)
+    return decorated
+
     
 @app.route("/")
 def home():
@@ -46,6 +70,7 @@ def home():
     
 # CREATE
 @app.route("/employees7", methods=["POST"])
+@token_required
 def crear7_empleado():
     try: 
         data = request.get_json()
@@ -121,7 +146,7 @@ def crear7_empleado():
         cursor.execute(query,datVar)
         conn.commit()
         
-        cursor.execute(f"SELECT emp_imp_error FROM {TABLE_NAME} WHERE emp_identificacion = ?", (identificacion,))
+        cursor.execute(f"SELECT emp_imp_error FROM {TABLE_NAME} WHERE emp_identificacion = ? and emp_estado_registro = ?", (identificacion,0))
         error_list = cursor.fetchone()[0]
         conn.commit()
         
@@ -131,7 +156,7 @@ def crear7_empleado():
             else:
                 return jsonify({"message": "Empleado actualizado"}), 200
         else:
-            return jsonify({"error": error_list}), 400 
+            return jsonify({"error(es)": error_list}), 400 
         
         
     except pyodbc.IntegrityError as e:
