@@ -176,7 +176,7 @@ def crear7_empleado():
         except:
             pass
             
-@app.route('/api7empleado', methods=['GET'])
+@app.route('/api7empleados', methods=['GET'])
 @token_required
 def obtener7_empleados():
     try:
@@ -212,6 +212,6 @@ def test_error():
 @app.errorhandler(Exception)
 def handle_exception(e):
     tb = traceback.format_exc()
-    app.logger.error("❌ Ocurrió un error en la aplicación:\n" + tb)
+    app.logger.error("Ocurrió un error en la aplicación:\n" + tb)
     # Devuelve el error completo al navegador
     return f" Ocurrió un error en el servidor:</h2><pre>{tb}</pre>", 500
