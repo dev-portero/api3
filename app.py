@@ -57,10 +57,11 @@ def token_required(f):
 
     
 @app.route("/")
+@token_required
 def home():
     conn = get_connection()
     cursor = conn.cursor()
-    sql = f"SELECT * FROM {TABLE_NAME}"
+    sql = f"SELECT * FROM api7empleados"
     cursor.execute(sql)
     rows = cursor.fetchall()
     cursor.close()
