@@ -17,6 +17,7 @@ app.logger.setLevel(logging.DEBUG)
 
 # === CONSTANTES ===
 TABLE_NAME = 'ib_empleado_api'     # tabla con los campos
+VIEW_NAME = 'api7empleados'        #Vista con los campos
 
 
 # Función de conexión
@@ -57,19 +58,12 @@ def token_required(f):
 
     
 @app.route("/")
+@token_required
 def home():
-    conn = get_connection()
-    cursor = conn.cursor()
-    sql = f"SELECT * FROM api7empleados"
-    cursor.execute(sql)
-    rows = cursor.fetchall()
-    cursor.close()
-    conn.close()
-    # Devolver resultado como texto simple
-    return "<br>".join(str(row) for row in rows)
+    return "Hola, api carga y consulta empleados"
     
 # CREATE
-@app.route("/employees7", methods=["POST"])
+@app.route("/api7empleado", methods=["POST"])
 @token_required
 def crear7_empleado():
     try: 
@@ -181,8 +175,32 @@ def crear7_empleado():
             conn.close()
         except:
             pass
+            
+@app.route('/api7empleado', methods=['GET'])
+@token_required
+def obtener7_empleados():
+    try:
+        conn = get_connection()
+        cursor = conn.cursor()
+        
+        # Consulta la vista
+        cursor.execute("SELECT * FROM {api7empleados}")
+
+        # Obtener nombres de columnas (cabeceras)
+        columns = [column[0] for column in cursor.description]
+
+        # Convertir resultados en una lista de diccionarios
+        rows = [dict(zip(columns, row)) for row in cursor.fetchall()]
+
+        return jsonify(rows), 200  #respuesta HTTP 200 OK
+
+    except Exception as e:
+        return jsonify({"error": "Error interno del servidor", "detalle": str(e)}), 500
+
+    finally:
+        if 'conn' in locals():
+            conn.close()
     
- 
 @app.route("/test-error")
 def test_error():
     # Genera un error a propósito para probar el manejo de excepciones
