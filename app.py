@@ -56,6 +56,13 @@ def token_required(f):
         return f(*args, **kwargs)
     return decorated
 
+
+@app.errorhandler(405)
+def method_not_allowed(e):
+    return jsonify({
+        "error": "Método no permitido",
+        "message": f"El método {request.method} no está permitido para esta URL.",
+    }), 405
     
 @app.route("/")
 @token_required
@@ -184,7 +191,7 @@ def obtener7_empleados():
         cursor = conn.cursor()
         
         # Consulta la vista
-        cursor.execute("SELECT * FROM {api7empleados}")
+        cursor.execute(f"SELECT * FROM {VIEW_NAME}")
 
         # Obtener nombres de columnas (cabeceras)
         columns = [column[0] for column in cursor.description]
