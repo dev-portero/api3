@@ -57,7 +57,6 @@ def token_required(f):
 
     
 @app.route("/")
-@token_required
 def home():
     conn = get_connection()
     cursor = conn.cursor()
