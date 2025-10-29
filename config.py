@@ -10,4 +10,4 @@ DB_CONFIG = {
     "TrustServerCertificate": "yes"
 }
 
-API_TOKEN = os.getenv("API_TOKEN", "mi_token_super_seguro")
+API_TOKEN = os.getenv("API_TOKEN", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiQW1hcmlsbG8iLCJleHAiOjE3OTMyMzI5Mjd9.eT1sa0E-gRmV_cUeYTPRRQhOUb6yNrAqi6N8MgSGpMI")
