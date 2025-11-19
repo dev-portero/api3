@@ -176,7 +176,7 @@ def crear7_empleado():
                                      direccion,               telefono,                       email,                   cargo,       
                                      fecha_ingreso,           fecha_final_prev,               fecha_retiro,            eps, 
                                      arl,                     talla_superior,                 talla_inferior,          talla_zapato,
-                                     dependencia,             rh,                             nom_cont1,               par_cont1
+                                     dependencia,             rh,                             nom_cont1,               par_cont1,
                                      tel_cont1,               afp,                            nivel_educativo,         tipo_vivienda,
                                      tipo_hogar,              nucleo_familiar,                grupo_social,            discapacidad,
                                      pobacion_especial,       enfermedad,                     tipo_transporte,         tiempotrabajo,
