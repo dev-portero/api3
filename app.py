@@ -169,8 +169,7 @@ def crear7_empleado():
                                     ?,                        ?,                              ?,                       ?,
                                     ?,                        ?,                              ?,                       ?, 
                                     ?,                        ?,                              ?,                       ?,
-                                    ?,                        ?,                              ?,                       ?,
-                                    ?)
+                                    ?,                        ?,                              ?,                       ?)
         """
                            datVar = (7,                       accion,                         estado,                  identificacion, 
                                      nombres,                 apellidos,                      fecha_nacimiento,        genero, 
