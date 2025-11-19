@@ -120,10 +120,10 @@ def crear7_empleado():
         nucleo_familiar = data.get("nucleoFamiliar", "")
         grupo_social = data.get("grupoSocial", "")
         discapacidad = data.get("discapacidad", "")
-        pobacion_especial = data.get("poblacionEspecial", "")
+        poblacion_especial = data.get("poblacionEspecial", "")
         enfermedad = data.get("enfermedad", "")
         tipo_transporte = data.get("tipoTransporte", "")
-        tiempotrabajo = data.get("tiempoTrabajo", "")
+        tiempo_trabajo = data.get("tiempoTrabajo", "")
         grado_escolaridad = data.get("gradoEscolaridad", "")
         estcivil = data.get("estadoCivil", "")
         nacionalidad = data.get("nacionalidad", "")
@@ -151,7 +151,7 @@ def crear7_empleado():
         
         query = f"""              
          INSERT INTO {TABLE_NAME} (cor_id,                    emp_tipo_registro,              emp_estado,             emp_identificacion,
-                                   emp_nombres,               emp_apellidos,                  emp_nacimiento,         emp_genero
+                                   emp_nombres,               emp_apellidos,                  emp_nacimiento,         emp_genero,
                                    emp_direccion,             emp_telefono,                   emp_email,              emp_cargo,
                                    emp_ingreso,               emp_final_prev_contrato,        emp_retiro,             emp_EPS,
                                    emp_ARL_riesgo,            emp_talla_superior,             emp_talla_inferior,     emp_talla_zapato,
@@ -179,7 +179,7 @@ def crear7_empleado():
                                      dependencia,             rh,                             nom_cont1,               par_cont1,
                                      tel_cont1,               afp,                            nivel_educativo,         tipo_vivienda,
                                      tipo_hogar,              nucleo_familiar,                grupo_social,            discapacidad,
-                                     pobacion_especial,       enfermedad,                     tipo_transporte,         tiempotrabajo,
+                                     poblacion_especial,      enfermedad,                     tipo_transporte,         tiempo_trabajo,
                                      grado_escolaridad,       estcivil,                       nacionalidad,            num_hijos)                           
         cursor.execute(query,datVar)
         conn.commit()
