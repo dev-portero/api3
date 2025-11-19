@@ -150,37 +150,37 @@ def crear7_empleado():
 
         
         query = f"""              
-         INSERT INTO {TABLE_NAME} (cor_id,                    emp_tipo_registro,              emp_estado,             emp_identificacion,
-                                   emp_nombres,               emp_apellidos,                  emp_nacimiento,         emp_genero,
-                                   emp_direccion,             emp_telefono,                   emp_email,              emp_cargo,
-                                   emp_ingreso,               emp_final_prev_contrato,        emp_retiro,             emp_EPS,
-                                   emp_ARL_riesgo,            emp_talla_superior,             emp_talla_inferior,     emp_talla_zapato,
-                                   emp_dependencia,           emp_rh,                         emp_nom_cont1,          emp_par_cont1,
-                                   emp_tel_cont1,             emp_AFP,                        emp_add_niveleducativo, emp_add_tipovivienda,
-                                   emp_add_tipohogar,         emp_add_personasnucleofamiliar, emp_add_gruposocial,    emp_add_tipodiscapacidad,
-                                   emp_add_poblacionespecial, emp_add_enfermedad,             emp_add_tipotransporte, emp_add_tiempollegartrabajo,
-                                   emp_add_gradoescolaridad,  emp_estcivil,                   emp_nacionalidad,       emp_numhijos) 
-                            values (?,                        ?,                              ?,                       ?,   
-                                    ?,                        ?,                              ?,                       ?,
-                                    ?,                        ?,                              ?,                       ?,
-                                    ?,                        ?,                              ?,                       ?, 
-                                    ?,                        ?,                              ?,                       ?,
-                                    ?,                        ?,                              ?,                       ?,
-                                    ?,                        ?,                              ?,                       ?,
-                                    ?,                        ?,                              ?,                       ?, 
-                                    ?,                        ?,                              ?,                       ?,
-                                    ?,                        ?,                              ?,                       ?)
+        INSERT INTO {TABLE_NAME} (cor_id,                    emp_tipo_registro,              emp_estado,             emp_identificacion,
+                                  emp_nombres,               emp_apellidos,                  emp_nacimiento,         emp_genero,
+                                  emp_direccion,             emp_telefono,                   emp_email,              emp_cargo,
+                                  emp_ingreso,               emp_final_prev_contrato,        emp_retiro,             emp_EPS,
+                                  emp_ARL_riesgo,            emp_talla_superior,             emp_talla_inferior,     emp_talla_zapato,
+                                  emp_dependencia,           emp_rh,                         emp_nom_cont1,          emp_par_cont1,
+                                  emp_tel_cont1,             emp_AFP,                        emp_add_niveleducativo, emp_add_tipovivienda,
+                                  emp_add_tipohogar,         emp_add_personasnucleofamiliar, emp_add_gruposocial,    emp_add_tipodiscapacidad,
+                                  emp_add_poblacionespecial, emp_add_enfermedad,             emp_add_tipotransporte, emp_add_tiempollegartrabajo,
+                                  emp_add_gradoescolaridad,  emp_estcivil,                   emp_nacionalidad,       emp_numhijos) 
+                           values (?,                        ?,                              ?,                       ?,   
+                                   ?,                        ?,                              ?,                       ?,
+                                   ?,                        ?,                              ?,                       ?,
+                                   ?,                        ?,                              ?,                       ?, 
+                                   ?,                        ?,                              ?,                       ?,
+                                   ?,                        ?,                              ?,                       ?,
+                                   ?,                        ?,                              ?,                       ?,
+                                   ?,                        ?,                              ?,                       ?, 
+                                   ?,                        ?,                              ?,                       ?,
+                                   ?,                        ?,                              ?,                       ?)
         """
-                           datVar = (7,                       accion,                         estado,                  identificacion, 
-                                     nombres,                 apellidos,                      fecha_nacimiento,        genero, 
-                                     direccion,               telefono,                       email,                   cargo,       
-                                     fecha_ingreso,           fecha_final_prev,               fecha_retiro,            eps, 
-                                     arl,                     talla_superior,                 talla_inferior,          talla_zapato,
-                                     dependencia,             rh,                             nom_cont1,               par_cont1,
-                                     tel_cont1,               afp,                            nivel_educativo,         tipo_vivienda,
-                                     tipo_hogar,              nucleo_familiar,                grupo_social,            discapacidad,
-                                     poblacion_especial,      enfermedad,                     tipo_transporte,         tiempo_trabajo,
-                                     grado_escolaridad,       estcivil,                       nacionalidad,            num_hijos)                           
+        datVar = (7,                       accion,                         estado,                  identificacion, 
+                  nombres,                 apellidos,                      fecha_nacimiento,        genero, 
+                  direccion,               telefono,                       email,                   cargo,       
+                  fecha_ingreso,           fecha_final_prev,               fecha_retiro,            eps, 
+                  arl,                     talla_superior,                 talla_inferior,          talla_zapato,
+                  dependencia,             rh,                             nom_cont1,               par_cont1,
+                  tel_cont1,               afp,                            nivel_educativo,         tipo_vivienda,
+                  tipo_hogar,              nucleo_familiar,                grupo_social,            discapacidad,
+                  poblacion_especial,      enfermedad,                     tipo_transporte,         tiempo_trabajo,
+                  grado_escolaridad,       estcivil,                       nacionalidad,            num_hijos)                           
         cursor.execute(query,datVar)
         conn.commit()
         
