@@ -83,7 +83,7 @@ def crear7_empleado():
             return jsonify({"error": "Campo 'identificacion' es requerido"}), 400
         
         if 'nombres' not in data:
-            return jsonify({"error": "Campo 'nombre' es requerido"}), 400
+            return jsonify({"error": "Campo 'nombres' es requerido"}), 400
         
         if 'apellidos' not in data:
             return jsonify({"error": "Campo 'apellidos' es requerido"}), 400
