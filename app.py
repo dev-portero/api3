@@ -4,6 +4,8 @@ import traceback
 import logging
 import sys
 from functools import wraps
+import base64
+import requests
 from config import DB_CONFIG,API_TOKEN
 
 
@@ -33,6 +35,18 @@ def get_connection():
     )
     conn = pyodbc.connect(conn_str)
     return conn
+
+#funcion para convertir a base64
+def url_to_base64(url):
+    try:
+        response = requests.get(url, timeout=5)
+        response.raise_for_status()
+        img_bytes = response.content
+        return base64.b64encode(img_bytes).decode("utf-8")
+    except Exception as e:
+        # Log para consola/azure
+        print("ERROR descargando imagen:", e)
+        return None
     
 #decorador para el token
 def token_required(f):
@@ -275,6 +289,45 @@ def obtener_empleados():
     except Exception as e:
         return jsonify({"error": "Error interno del servidor", "detalle": str(e)}), 500
 
+    finally:
+        if 'conn' in locals():
+            conn.close()
+
+@app.route('/api8empleados/<string:identificacion>/foto', methods=['GET'])
+@token_required
+def obtener_foto_empleado(identificacion):
+    try:
+        conn = get_connection()
+        cursor = conn.cursor()
+
+        # Consulta correcta
+        sql = f"SELECT * FROM {VIEW_NAME_8} WHERE identificacion = ?"
+        cursor.execute(sql, (identificacion,))
+
+        row = cursor.fetchone()
+        if not row:
+            return jsonify({"error": "Empleado no encontrado"}), 404
+
+        columns = [col[0] for col in cursor.description]
+        url = row[-1]  # el último campo es la URL
+
+        if not url:
+            return jsonify({"error": "Empleado no tiene imagen registrada"}), 404
+
+        base64_image = url_to_base64(url)
+
+        if not base64_image:
+            return jsonify({"error": "No se pudo descargar o convertir la imagen"}), 500
+
+
+        return jsonify({
+            "identificacion": identificacion,
+            "foto_base64": base64_image
+        }), 200
+
+    except Exception as e:
+        return jsonify({"error": "Error interno del servidor", "detalle": str(e)}), 500
+    
     finally:
         if 'conn' in locals():
             conn.close()
