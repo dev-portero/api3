@@ -38,16 +38,15 @@ def get_connection():
 
 #funcion para convertir a base64
 def url_to_base64(url):
-    response = requests.get(url)
-    response.raise_for_status()  # para errores HTTP
-
-    # Obtiene los bytes de la imagen
-    img_bytes = response.content
-
-    # Convierte a base64
-    encoded = base64.b64encode(img_bytes).decode("utf-8")
-
-    return encoded
+    try:
+        response = requests.get(url, timeout=5)
+        response.raise_for_status()
+        img_bytes = response.content
+        return base64.b64encode(img_bytes).decode("utf-8")
+    except Exception as e:
+        # Log para consola/azure
+        print("ERROR descargando imagen:", e)
+        return None
     
 #decorador para el token
 def token_required(expected_token):
@@ -317,6 +316,10 @@ def obtener_foto_empleado(identificacion):
 
         base64_image = url_to_base64(url)
 
+        if not base64_image:
+            return jsonify({"error": "No se pudo descargar o convertir la imagen"}), 500
+
+
         return jsonify({
             "identificacion": identificacion,
             "foto_base64": base64_image
@@ -342,5 +345,4 @@ def test_error():
 def handle_exception(e):
     tb = traceback.format_exc()
     app.logger.error("Ocurrió un error en la aplicación:\n" + tb)
-    # Devuelve el error completo al navegador
-    return f" Ocurrió un error en el servidor:</h2><pre>{tb}</pre>", 500
+    return f"<h2>Ocurrió un error en el servidor:</h2><pre>{tb}</pre>", 500
