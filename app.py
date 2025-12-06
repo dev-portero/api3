@@ -17,7 +17,8 @@ app.logger.setLevel(logging.DEBUG)
 
 # === CONSTANTES ===
 TABLE_NAME = 'ib_empleado_api'     # tabla con los campos
-VIEW_NAME = 'api7empleados'        #Vista con los campos
+VIEW_NAME_7 = 'api7empleados'      #Vista con los campos
+VIEW_NAME_8 = 'api8empleados'      #Vista con los campos
 
 
 # Función de conexión
@@ -228,7 +229,7 @@ def obtener7_empleados():
         cursor = conn.cursor()
         
         # Consulta la vista
-        cursor.execute(f"SELECT * FROM {VIEW_NAME}")
+        cursor.execute(f"SELECT * FROM {VIEW_NAME_7}")
 
         # Obtener nombres de columnas (cabeceras)
         columns = [column[0] for column in cursor.description]
