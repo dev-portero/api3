@@ -3,6 +3,8 @@ import pyodbc
 import traceback
 import logging
 import sys
+import base64
+import requests
 from functools import wraps
 from config import DB_CONFIG,TOKENS
 
