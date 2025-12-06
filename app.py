@@ -4,8 +4,6 @@ import traceback
 import logging
 import sys
 from functools import wraps
-import base64
-import requests
 from config import DB_CONFIG,TOKENS
 
 
