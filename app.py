@@ -315,7 +315,6 @@ def obtener_foto_empleado(identificacion):
         if not url:
             return jsonify({"error": "Empleado no tiene imagen registrada"}), 404
 
-
         base64_image = url_to_base64(url)
 
         return jsonify({
