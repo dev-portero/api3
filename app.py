@@ -302,7 +302,7 @@ def obtener_foto_empleado(identificacion):
 
         # Consulta correcta
         sql = f"SELECT * FROM {VIEW_NAME_8} WHERE identificacion = ?"
-        cursor.execute(sql, (identificacion,))
+        cursor.execute(sql, (identificacion))
 
         row = cursor.fetchone()
         if not row:
