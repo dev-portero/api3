@@ -1,12 +1,10 @@
 from flask import Flask, request, jsonify
 import pyodbc
-import base64
-import requests
 import traceback
 import logging
 import sys
 from functools import wraps
-from config import DB_CONFIG,TOKENS
+from config import DB_CONFIG,API_TOKEN
 
 
 # Este nombre debe ser 'app' para que Gunicorn lo encuentre
@@ -19,8 +17,7 @@ app.logger.setLevel(logging.DEBUG)
 
 # === CONSTANTES ===
 TABLE_NAME = 'ib_empleado_api'     # tabla con los campos
-VIEW_NAME_7 = 'api7empleados'      #Vista con los campos
-VIEW_NAME_8 = 'api8empleados'      #Vista con los campos
+VIEW_NAME = 'api7empleados'        #Vista con los campos
 
 
 # Función de conexión
@@ -35,44 +32,29 @@ def get_connection():
     )
     conn = pyodbc.connect(conn_str)
     return conn
-
-#funcion para convertir a base64
-def url_to_base64(url):
-    try:
-        response = requests.get(url, timeout=5)
-        response.raise_for_status()
-        img_bytes = response.content
-        return base64.b64encode(img_bytes).decode("utf-8")
-    except Exception as e:
-        # Log para consola/azure
-        print("ERROR descargando imagen:", e)
-        return None
     
 #decorador para el token
-def token_required(expected_token):
-    def decorator(f):
-        @wraps(f)
-        def decorated(*args, **kwargs):
-            auth_header = request.headers.get("Authorization")
+def token_required(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        auth_header = request.headers.get("Authorization")
 
-            if not auth_header:
-                return jsonify({"error": "Token requerido"}), 401
+        if not auth_header:
+            return jsonify({"error": "Token requerido"}), 401
 
-            try:
-                token_type, token_value = auth_header.split()
-            except ValueError:
-                return jsonify({"error": "Formato del token inválido"}), 400
+        try:
+            token_type, token_value = auth_header.split()
+        except ValueError:
+            return jsonify({"error": "Formato del token inválido"}), 400
 
-            if token_type.lower() != "bearer":
-                return jsonify({"error": "Tipo de token inválido"}), 401
+        if token_type.lower() != "bearer":
+            return jsonify({"error": "Tipo de token inválido"}), 401
 
-            if token_value != expected_token:
-                return jsonify({"error": "Token inválido o expirado"}), 403
+        if token_value != API_TOKEN:
+            return jsonify({"error": "Token inválido o expirado"}), 403
 
-            return f(*args, **kwargs)
-        return decorated
-    return decorator
-
+        return f(*args, **kwargs)
+    return decorated
 
 
 @app.errorhandler(405)
@@ -83,12 +65,13 @@ def method_not_allowed(e):
     }), 405
     
 @app.route("/")
+@token_required
 def home():
     return "Hola, api carga y consulta empleados"
     
 # CREATE
 @app.route("/api7empleado", methods=["POST"])
-@token_required(TOKENS['AMARILLO'])
+@token_required
 def crear7_empleado():
     try: 
         data = request.get_json()
@@ -238,14 +221,14 @@ def crear7_empleado():
             pass
             
 @app.route('/api7empleados', methods=['GET'])
-@token_required(TOKENS['AMARILLO'])
+@token_required
 def obtener7_empleados():
     try:
         conn = get_connection()
         cursor = conn.cursor()
         
         # Consulta la vista
-        cursor.execute(f"SELECT * FROM {VIEW_NAME_7}")
+        cursor.execute(f"SELECT * FROM {VIEW_NAME}")
 
         # Obtener nombres de columnas (cabeceras)
         columns = [column[0] for column in cursor.description]
@@ -257,53 +240,7 @@ def obtener7_empleados():
 
     except Exception as e:
         return jsonify({"error": "Error interno del servidor", "detalle": str(e)}), 500
-    finally:
-        if 'conn' in locals():
-            conn.close()
-
-@app.route('/api8empleados', methods=['GET'])
-@token_required(TOKENS['JARAMILLO'])
-def obtener_empleados():
-    try:
-        conn = get_connection()
-        cursor = conn.cursor()
-        
-        # Consulta la vista
-        cursor.execute(f"SELECT * FROM {VIEW_NAME_8}")
-
-        # Obtener nombres de columnas (cabeceras)
-        columns = [column[0] for column in cursor.description]
-
-        # Convertir resultados en una lista de diccionarios
-        #rows = [dict(zip(columns, row)) for row in cursor.fetchall()] # con el ultimo campo
-        rows = []
-        for row in cursor.fetchall():
-            # Crear dict sin el último campo
-            item = dict(zip(columns, row))
-            item.pop(columns[-1], None)  # <-- ESTA LÍNEA EXCLUYE EL ÚLTIMO CAMPO
-
-            rows.append(item)
-
-        return jsonify(rows), 200  #respuesta HTTP 200 OK
-
-    except Exception as e:
-        return jsonify({"error": "Error interno del servidor", "detalle": str(e)}), 500
 
     finally:
         if 'conn' in locals():
             conn.close()
-
-
-@app.route("/test-error")
-def test_error():
-    # Genera un error a propósito para probar el manejo de excepciones
-    1 / 0  # Esto causará un ZeroDivisionError
-    return "Nunca se mostrará esto."
-
-
-# --- Manejador global de errores (muestra el error completo en el navegador) ---
-@app.errorhandler(Exception)
-def handle_exception(e):
-    tb = traceback.format_exc()
-    app.logger.error("Ocurrió un error en la aplicación:\n" + tb)
-    return f"<h2>Ocurrió un error en el servidor:</h2><pre>{tb}</pre>", 500
