@@ -36,6 +36,18 @@ def get_connection():
     conn = pyodbc.connect(conn_str)
     return conn
 
+#funcion para convertir a base64
+def url_to_base64(url):
+    try:
+        response = requests.get(url, timeout=5)
+        response.raise_for_status()
+        img_bytes = response.content
+        return base64.b64encode(img_bytes).decode("utf-8")
+    except Exception as e:
+        # Log para consola/azure
+        print("ERROR descargando imagen:", e)
+        return None
+
 #decorador para el token
 def token_required(expected_token):
     def decorator(f):
