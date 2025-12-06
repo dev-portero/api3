@@ -1,5 +1,5 @@
-from flask import Flask, request, jsonify,requests
-import pyodbc,base64
+from flask import Flask, request, jsonify
+import pyodbc,base64,requests
 import traceback
 import logging
 import sys
