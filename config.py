@@ -10,4 +10,8 @@ DB_CONFIG = {
     "TrustServerCertificate": "yes"
 }
 
-API_TOKEN = os.getenv("API_TOKEN", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiQW1hcmlsbG8iLCJleHAiOjE3OTMyMzI5Mjd9.eT1sa0E-gRmV_cUeYTPRRQhOUb6yNrAqi6N8MgSGpMI")
+TOKENS = {
+    "AMARILLO": os.getenv("TOKEN_AMARILLO", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiQW1hcmlsbG8iLCJleHAiOjE3OTMyMzI5Mjd9.eT1sa0E-gRmV_cUeYTPRRQhOUb6yNrAqi6N8MgSGpMI"),
+    "JARAMILLO": os.getenv("TOKEN_JARAMILLO", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiSmFyYW1pbGxvIiwiZXhwIjoxNzk2NTYyNTEyfQ.OfACYzyeQUw4WC-6RpiUnAzlJejbJdIw1lsNjMthLys")
+}
+
