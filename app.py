@@ -1,5 +1,7 @@
 from flask import Flask, request, jsonify
-import pyodbc,base64,requests
+import pyodbc
+import base64
+import requests
 import traceback
 import logging
 import sys
