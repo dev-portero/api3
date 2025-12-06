@@ -294,3 +294,41 @@ def obtener_empleados():
         if 'conn' in locals():
             conn.close()
 
+@app.route('/api8empleados/<string:identificacion>/foto', methods=['GET'])
+@token_required(TOKENS['JARAMILLO'])
+def obtener_foto_empleado(identificacion):
+    try:
+        conn = get_connection()
+        cursor = conn.cursor()
+
+        # Consulta correcta
+        sql = f"SELECT * FROM {VIEW_NAME_8} WHERE identificacion = ?"
+        cursor.execute(sql, (identificacion,))
+
+        row = cursor.fetchone()
+        if not row:
+            return jsonify({"error": "Empleado no encontrado"}), 404
+
+        columns = [col[0] for col in cursor.description]
+        url = row[-1]  # el último campo es la URL
+
+        if not url:
+            return jsonify({"error": "Empleado no tiene imagen registrada"}), 404
+
+        base64_image = url_to_base64(url)
+
+        if not base64_image:
+            return jsonify({"error": "No se pudo descargar o convertir la imagen"}), 500
+
+
+        return jsonify({
+            "identificacion": identificacion,
+            "foto_base64": base64_image
+        }), 200
+
+    except Exception as e:
+        return jsonify({"error": "Error interno del servidor", "detalle": str(e)}), 500
+    
+    finally:
+        if 'conn' in locals():
+            conn.close()
