@@ -44,9 +44,8 @@ def url_to_base64(url):
         img_bytes = response.content
         return base64.b64encode(img_bytes).decode("utf-8")
     except Exception as e:
-        # Log para consola/azure
-        print("ERROR descargando imagen:", e)
-        return None
+        # Deja que el manejador global capture el error real
+        raise Exception(f"Error descargando imagen desde {url}: {e}")
 
 #decorador para el token
 def token_required(expected_token):
@@ -332,3 +331,17 @@ def obtener_foto_empleado(identificacion):
     finally:
         if 'conn' in locals():
             conn.close()
+
+@app.route("/test-error")
+def test_error():
+    # Genera un error a propósito para probar el manejo de excepciones
+    1 / 0  # Esto causará un ZeroDivisionError
+    return "Nunca se mostrará esto."
+
+
+# --- Manejador global de errores (muestra el error completo en el navegador) ---
+@app.errorhandler(Exception)
+def handle_exception(e):
+    tb = traceback.format_exc()
+    app.logger.error("Ocurrió un error en la aplicación:\n" + tb)
+    return f"<h2>Ocurrió un error en el servidor:</h2><pre>{tb}</pre>", 500
