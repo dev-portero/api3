@@ -301,11 +301,9 @@ def obtener_foto_empleado(identificacion):
         conn = get_connection()
         cursor = conn.cursor()
 
-        # Obtener solo la URL del empleado
-        cursor.execute(
-            f"SELECT {VIEW_NAME_8} * FROM {VIEW_NAME_8} WHERE identificacion = ?",
-            (identificacion,)
-        )
+        # Consulta correcta
+        sql = f"SELECT * FROM {VIEW_NAME_8} WHERE identificacion = ?"
+        cursor.execute(sql, (identificacion,))
 
         row = cursor.fetchone()
         if not row:
