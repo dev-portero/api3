@@ -303,7 +303,7 @@ def obtener_foto_empleado(identificacion):
 
         # Obtener solo la URL del empleado
         cursor.execute(
-            f"SELECT {VIEW_NAME_8}.* FROM {VIEW_NAME_8} WHERE identificacion = %s",
+            f"SELECT {VIEW_NAME_8} * FROM {VIEW_NAME_8} WHERE identificacion = ?",
             (identificacion,)
         )
 
