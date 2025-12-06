@@ -244,3 +244,36 @@ def obtener7_empleados():
     finally:
         if 'conn' in locals():
             conn.close()
+
+
+@app.route('/api8empleados', methods=['GET'])
+@token_required
+def obtener_empleados():
+    try:
+        conn = get_connection()
+        cursor = conn.cursor()
+        
+        # Consulta la vista
+        cursor.execute(f"SELECT * FROM {VIEW_NAME_8}")
+
+        # Obtener nombres de columnas (cabeceras)
+        columns = [column[0] for column in cursor.description]
+
+        # Convertir resultados en una lista de diccionarios
+        #rows = [dict(zip(columns, row)) for row in cursor.fetchall()] # con el ultimo campo
+        rows = []
+        for row in cursor.fetchall():
+            # Crear dict sin el último campo
+            item = dict(zip(columns, row))
+            item.pop(columns[-1], None)  # <-- ESTA LÍNEA EXCLUYE EL ÚLTIMO CAMPO
+
+            rows.append(item)
+
+        return jsonify(rows), 200  #respuesta HTTP 200 OK
+
+    except Exception as e:
+        return jsonify({"error": "Error interno del servidor", "detalle": str(e)}), 500
+
+    finally:
+        if 'conn' in locals():
+            conn.close()
