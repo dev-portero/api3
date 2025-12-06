@@ -312,6 +312,10 @@ def obtener_foto_empleado(identificacion):
         columns = [col[0] for col in cursor.description]
         url = row[-1]  # el último campo es la URL
 
+        if not url:
+            return jsonify({"error": "Empleado no tiene imagen registrada"}), 404
+
+
         base64_image = url_to_base64(url)
 
         return jsonify({
