@@ -37,9 +37,18 @@ def get_connection():
     return conn
 
 #funcion para convertir a base64
-def url_to_base64(url):
+def url_to_base64(url:str):
     try:
-        response = requests.get(url, timeout=5)
+        headers = {
+                "User-Agent": (
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                    "AppleWebKit/537.36 (KHTML, like Gecko) "
+                    "Chrome/120.0.0.0 Safari/537.36"
+                ),
+                "Referer": "https://google.com"
+            }
+        response = requests.get(url, headers=headers, timeout=10)
+        #response = requests.get(url, timeout=5)
         response.raise_for_status()
         img_bytes = response.content
         return base64.b64encode(img_bytes).decode("utf-8")
