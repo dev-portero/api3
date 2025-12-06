@@ -6,7 +6,7 @@ import sys
 from functools import wraps
 import base64
 import requests
-from config import DB_CONFIG,API_TOKEN
+from config import DB_CONFIG,TOKENS
 
 
 # Este nombre debe ser 'app' para que Gunicorn lo encuentre
@@ -36,40 +36,30 @@ def get_connection():
     conn = pyodbc.connect(conn_str)
     return conn
 
-#funcion para convertir a base64
-def url_to_base64(url):
-    try:
-        response = requests.get(url, timeout=5)
-        response.raise_for_status()
-        img_bytes = response.content
-        return base64.b64encode(img_bytes).decode("utf-8")
-    except Exception as e:
-        # Log para consola/azure
-        print("ERROR descargando imagen:", e)
-        return None
-    
 #decorador para el token
-def token_required(f):
-    @wraps(f)
-    def decorated(*args, **kwargs):
-        auth_header = request.headers.get("Authorization")
+def token_required(expected_token):
+    def decorator(f):
+        @wraps(f)
+        def decorated(*args, **kwargs):
+            auth_header = request.headers.get("Authorization")
 
-        if not auth_header:
-            return jsonify({"error": "Token requerido"}), 401
+            if not auth_header:
+                return jsonify({"error": "Token requerido"}), 401
 
-        try:
-            token_type, token_value = auth_header.split()
-        except ValueError:
-            return jsonify({"error": "Formato del token inválido"}), 400
+            try:
+                token_type, token_value = auth_header.split()
+            except ValueError:
+                return jsonify({"error": "Formato del token inválido"}), 400
 
-        if token_type.lower() != "bearer":
-            return jsonify({"error": "Tipo de token inválido"}), 401
+            if token_type.lower() != "bearer":
+                return jsonify({"error": "Tipo de token inválido"}), 401
 
-        if token_value != API_TOKEN:
-            return jsonify({"error": "Token inválido o expirado"}), 403
+            if token_value != expected_token:
+                return jsonify({"error": "Token inválido o expirado"}), 403
 
-        return f(*args, **kwargs)
-    return decorated
+            return f(*args, **kwargs)
+        return decorated
+    return decorator
 
 
 @app.errorhandler(405)
@@ -80,13 +70,12 @@ def method_not_allowed(e):
     }), 405
     
 @app.route("/")
-@token_required
 def home():
     return "Hola, api carga y consulta empleados"
     
 # CREATE
 @app.route("/api7empleado", methods=["POST"])
-@token_required
+@token_required(TOKENS['AMARILLO'])
 def crear7_empleado():
     try: 
         data = request.get_json()
@@ -236,7 +225,7 @@ def crear7_empleado():
             pass
             
 @app.route('/api7empleados', methods=['GET'])
-@token_required
+@token_required(TOKENS['AMARILLO'])
 def obtener7_empleados():
     try:
         conn = get_connection()
@@ -262,7 +251,7 @@ def obtener7_empleados():
 
 
 @app.route('/api8empleados', methods=['GET'])
-@token_required
+@token_required(TOKENS['JARAMILLO'])
 def obtener_empleados():
     try:
         conn = get_connection()
@@ -293,41 +282,3 @@ def obtener_empleados():
         if 'conn' in locals():
             conn.close()
 
-@app.route('/api8empleados/<string:identificacion>/foto', methods=['GET'])
-@token_required
-def obtener_foto_empleado(identificacion):
-    try:
-        conn = get_connection()
-        cursor = conn.cursor()
-
-        # Consulta correcta
-        sql = f"SELECT * FROM {VIEW_NAME_8} WHERE identificacion = ?"
-        cursor.execute(sql, (identificacion,))
-
-        row = cursor.fetchone()
-        if not row:
-            return jsonify({"error": "Empleado no encontrado"}), 404
-
-        columns = [col[0] for col in cursor.description]
-        url = row[-1]  # el último campo es la URL
-
-        if not url:
-            return jsonify({"error": "Empleado no tiene imagen registrada"}), 404
-
-        base64_image = url_to_base64(url)
-
-        if not base64_image:
-            return jsonify({"error": "No se pudo descargar o convertir la imagen"}), 500
-
-
-        return jsonify({
-            "identificacion": identificacion,
-            "foto_base64": base64_image
-        }), 200
-
-    except Exception as e:
-        return jsonify({"error": "Error interno del servidor", "detalle": str(e)}), 500
-    
-    finally:
-        if 'conn' in locals():
-            conn.close()
