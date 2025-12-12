@@ -202,7 +202,7 @@ def crear7_empleado():
         conn.commit()
 
         if not row:
-            return jsonify({"error": "No se encontró el registro recién insertado"}), 500
+            return jsonify({"error": "Servidor ocupado, espere un momento e intente nuevamente"}), 500
 
         error_list = row[0] or ""
           
