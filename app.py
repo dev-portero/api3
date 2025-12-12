@@ -198,9 +198,14 @@ def crear7_empleado():
         conn.commit()
         
         cursor.execute(f"SELECT emp_imp_error FROM {TABLE_NAME} WHERE emp_identificacion = ? and emp_estado_registro = ?", (identificacion,0))
-        error_list = cursor.fetchone()[0]
+        row = cursor.fetchone()
         conn.commit()
-        
+
+        if not row:
+            return jsonify({"error": "No se encontró el registro recién insertado"}), 500
+
+        error_list = row[0] or ""
+          
         if error_list =="":
             if accion == "Insertar":
                 return jsonify({"message": "Empleado creado exitosamente"}), 201
