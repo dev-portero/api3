@@ -142,12 +142,12 @@ def crear7_empleado():
         grado_escolaridad = data.get("gradoescolaridad", "")
         estcivil = data.get("estadoCivil", "")
         nacionalidad = data.get("nacionalidad", "")
-        num_hijos_str = data.get("numhijos")
+        num_hijos_str = data.get("numHijos")
         
         try:
             num_hijos = int(num_hijos_str) if num_hijos_str is not None else None
         except ValueError:
-            return jsonify({"error": "El campo 'numeroHijos' debe ser un número entero"}), 400
+            return jsonify({"error": "El campo 'numHijos' debe ser un número entero"}), 400
         
         accion = data.get("accion", "")
         
@@ -161,9 +161,7 @@ def crear7_empleado():
         
         conn = get_connection()
         cursor = conn.cursor()
-        
-
-        
+             
         query = f"""              
         INSERT INTO {TABLE_NAME} (cor_id,                    emp_tipo_registro,              emp_estado,             emp_identificacion,
                                   emp_nombres,               emp_apellidos,                  emp_nacimiento,         emp_genero,
@@ -200,9 +198,14 @@ def crear7_empleado():
         conn.commit()
         
         cursor.execute(f"SELECT emp_imp_error FROM {TABLE_NAME} WHERE emp_identificacion = ? and emp_estado_registro = ?", (identificacion,0))
-        error_list = cursor.fetchone()[0]
+        row = cursor.fetchone()
         conn.commit()
-        
+
+        if not row:
+            return jsonify({"error": "Servidor ocupado, espere un momento e intente nuevamente"}), 500
+
+        error_list = row[0] or ""
+          
         if error_list =="":
             if accion == "Insertar":
                 return jsonify({"message": "Empleado creado exitosamente"}), 201
