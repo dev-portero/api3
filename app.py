@@ -212,7 +212,7 @@ def crear7_empleado():
             else:
                 return jsonify({"message": "Empleado actualizado"}), 200
         else:
-            return jsonify({"error(es)": error_list}), 400 
+            return jsonify({"error(es)": error_list}), 200 
         
         
     except pyodbc.IntegrityError as e:
